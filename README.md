@@ -1,5 +1,46 @@
 # Kong Mesh Quickstart for Openshift 4.12
 
+<p align="center">
+  <img src="https://konghq.com/wp-content/uploads/2018/08/kong-combination-mark-color-256px.png" /></div>
+</p>
+
+This is quickstart to get you up and running with Kong Mesh in standalone mode on Openshift.
+
+This tutorial does not require a license, Kong Mesh can start in evaluation mode, and limits you 5 dataplanes/sidecars to use. Just enough dataplanes to get comfortable with the product.
+
+For Openshfit, we'll be spinning up a ROSA 4.12 cluster. This tutorial does also assume some base level knowledge of Openshift.
+
+This tutorial will cover:
+
+* How to use the Red Hat Certified Kong Mesh Images
+* How to implement the required openshift scc for the kong-mesh sidecar
+* Deploy and join the Kong for Kubernetes Ingress Controller (KIC) to the mesh
+* Deploy a sample application, bookinfo, on the mesh and validate it's all working
+
+Fun! Let's do it!
+
+## Table of Contents
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=2 depthTo=6 orderedList=true} -->
+
+<!-- code_chunk_output -->
+
+* [Prequisites](#prequisites)
+* [Install ROSA](#install-rosa)
+* [Install Kong Mesh](#install-kong-mesh---standalone-mode)
+* [Deploy KIC](#deploy-kic-on-mesh)
+* [Deploy Bookinfo](#deploy-bookinfo)
+
+<!-- /code_chunk_output -->
+
+## Prequisites
+
+The prequisites for this tutorial:
+
+1. ROSA cli or another Openshift 4.12 cluster with the ability to create LoadBalancer type Kubernetes Services
+2. kubectl cli
+3. oc cli
+4. Helm 3
 
 ## Install ROSA
 
@@ -24,7 +65,7 @@ rosa create admin --cluster $CLUSTER_NAME
 
 Validate you can login to the cluster via the credentials provided by the rosa cli stdout. Once login is successful you can proceed to the next step.
 
-oc login https://api.df-mesh-2.slzk.p1.openshiftapps.com:6443 --username cluster-admin --password RYvrE-6tUWv-CrWnD-ZzEyq
+## Install Kong Mesh - Standalone Mode
 
 ```console
 kubectl create namespace kong-mesh-system
@@ -33,7 +74,7 @@ kubectl create namespace kong-mesh-system
 Create the image pull secret:
 
 ```console
-oc create secret docker-registry rh-registry-secret -n kong-mesh-system \
+kubectl create secret docker-registry rh-registry-secret -n kong-mesh-system \
     --docker-server=registry.connect.redhat.com \
     --docker-username=<username> \
     --docker-password=<password> \
@@ -132,6 +173,8 @@ Last we want to create an ingress resource to expose bookinfo to the outside wor
 kubectl apply -f bookinfo/ingress-productpage.yaml
 ```
 
+Now! Validate it's all up and running. Navigate to your browswer to `http://$PROXY_IP/productpage` and you should be able to see productpage with a majority of the bells and whistles.
+
 ## Clean Up
 
 Tear Down bookinfo:
@@ -154,4 +197,16 @@ helm uninstall kong-mesh -n kong-mesh-system
 
 And all the components should be down! It's safe to destroy the ROSA cluster.
 
-Thanks for making it to the end!
+Delete the ROSA cluster-admin user:
+
+```console
+rosa delete admin --cluster $CLUSTER_NAME
+```
+
+Delete ROSA cluster:
+
+```console
+rosa delete cluster --cluster $CLUSTER_NAME
+```
+
+Thanks for making it to end!
