@@ -1,0 +1,20 @@
+apiVersion: kuma.io/v1alpha1
+kind: ContainerPatch
+metadata:
+  name: default-container-patch
+  namespace: kong-mesh-system
+spec:
+  sidecarPatch:
+    - op: add
+      path: /securityContext/capabilities
+      value: '{
+        "add": [
+            "NET_BIND_SERVICE",
+            "SETGID",
+            "SETUID",
+            "FSETID"
+        ],
+        "drop" : [
+        "ALL"
+        ]
+      }'

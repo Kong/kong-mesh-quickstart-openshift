@@ -1,0 +1,72 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo
+  namespace: bookinfo
+spec:
+  ingressClassName: kong
+  rules:
+  - http:
+      paths:
+      - path: /productpage
+        pathType: Prefix
+        backend:
+          service:
+            name: productpage
+            port:
+              number: 9080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: product-static
+  namespace: bookinfo
+spec:
+  ingressClassName: kong
+  rules:
+  - http:
+      paths:
+      - path: /static/
+        pathType: Prefix
+        backend:
+          service:
+            name: productpage
+            port:
+              number: 9080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: product-login
+  namespace: bookinfo
+spec:
+  ingressClassName: kong
+  rules:
+  - http:
+      paths:
+      - path: /login
+        pathType: Prefix
+        backend:
+          service:
+            name: productpage
+            port:
+              number: 9080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: product-logout
+  namespace: bookinfo
+spec:
+  ingressClassName: kong
+  rules:
+  - http:
+      paths:
+      - path: /logout
+        pathType: Prefix
+        backend:
+          service:
+            name: productpage
+            port:
+              number: 9080
+---
