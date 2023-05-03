@@ -1,19 +1,19 @@
-# Kong Mesh Quickstart for Openshift 4.12
+# Kong Mesh Quickstart for OpenShift 4.12
 
 <p align="center">
   <img src="https://konghq.com/wp-content/uploads/2018/08/kong-combination-mark-color-256px.png" /></div>
 </p>
 
-This is quickstart to get you up and running with Kong Mesh in standalone mode on Openshift.
+This is a quickstart to get you up and running with Kong Mesh in standalone mode on OpenShift.
 
 This tutorial does not require a license, Kong Mesh can start in evaluation mode, and limits you 5 dataplanes/sidecars to use. Just enough dataplanes to get comfortable with the product.
 
-For Openshfit, we'll be spinning up a ROSA 4.12 cluster. This tutorial does also assume some base level knowledge of Openshift.
+For OpenShfit, we'll be spinning up a ROSA 4.12 cluster. This tutorial does also assume some base level knowledge of OpenShift.
 
 This tutorial will cover:
 
 * How to use the Red Hat Certified Kong Mesh Images
-* How to implement the required openshift scc for the kong-mesh sidecar
+* How to implement the required OpenShift SecurityContextConstraints (SCC) for the kong-mesh sidecar
 * Deploy and join the Kong for Kubernetes Ingress Controller (KIC) to the mesh
 * Deploy a sample application, bookinfo, on the mesh and validate it's all working
 
@@ -25,7 +25,7 @@ Fun! Let's do it!
 
 <!-- code_chunk_output -->
 
-* [Prequisites](#prequisites)
+* [Prerequisites](#prerequisites)
 * [Install ROSA](#install-rosa)
 * [Install Kong Mesh](#install-kong-mesh---standalone-mode)
 * [Deploy KIC](#deploy-kic-on-mesh)
@@ -33,11 +33,11 @@ Fun! Let's do it!
 
 <!-- /code_chunk_output -->
 
-## Prequisites
+## Prerequisites
 
-The prequisites for this tutorial:
+The prerequisites for this tutorial:
 
-1. ROSA cli or another Openshift 4.12 cluster with the ability to create LoadBalancer type Kubernetes Services
+1. ROSA cli or another OpenShift 4.12 cluster with the ability to create LoadBalancer type Kubernetes Services
 2. kubectl cli
 3. oc cli
 4. Helm 3
@@ -161,7 +161,7 @@ oc adm policy add-scc-to-user kong-mesh-sidecar system:serviceaccount:bookinfo:b
 oc adm policy add-scc-to-user kong-mesh-sidecar system:serviceaccount:bookinfo:bookinfo-reviews
 ```
 
-Next, deeploy bookinfo. This bookinfo app has been paired down to work with Kong Mesh in evaluation mode. We only have 5 sidecars we can deploy on evaluation mode is all.
+Next, deploy bookinfo. This bookinfo app has been paired down to work with Kong Mesh in evaluation mode. We only have 5 sidecars we can deploy on evaluation mode is all.
 
 ```console
 kubectl apply -f bookinfo/bookinfo.yaml
