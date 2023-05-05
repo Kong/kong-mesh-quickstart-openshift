@@ -176,7 +176,7 @@ Next, deploy bookinfo. This bookinfo app has been paired down to work with Kong 
 ```console
 kubectl create namespace bookinfo
 
-kubectl label namespace kong kuma.io/sidecar-injection=enabled
+kubectl label namespace bookinfo kuma.io/sidecar-injection=enabled
 ```
 
 ```console
