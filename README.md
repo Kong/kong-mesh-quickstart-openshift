@@ -174,13 +174,13 @@ oc adm policy add-scc-to-user kong-mesh-sidecar system:serviceaccount:bookinfo:b
 Next, deploy bookinfo. This bookinfo app has been paired down to work with Kong Mesh in evaluation mode. We only have 5 sidecars we can deploy on evaluation mode is all.
 
 ```console
-kubectl apply -f bookinfo/bookinfo.yaml
+kubectl apply -f bookinfo/bookinfo.yaml -n bookinfo
 ```
 
 Last we want to create an ingress resource to expose bookinfo to the outside world.
 
 ```console
-kubectl apply -f bookinfo/ingress-productpage.yaml
+kubectl apply -f bookinfo/ingress-productpage.yaml -n bookinfo
 ```
 
 Now! Validate it's all up and running. Navigate to your browswer to `http://$PROXY_IP/productpage` and you should be able to see productpage with a majority of the bells and whistles.
