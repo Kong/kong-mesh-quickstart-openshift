@@ -54,7 +54,7 @@ REGION=us-west-2
 Create a small ROSA cluster:
 
 ```console
-rosa create cluster --cluster-name=$CLUSTER_NAME --region=$REGION --multi-az=false --version 4.12.3
+rosa create cluster --cluster-name=$CLUSTER_NAME --region=$REGION --multi-az=false --version 4.12.13
 ```
 
 When the Cluster install is complete, create a cluster-admin user:
@@ -123,9 +123,19 @@ First we're going to deploy KIC as our ingress controller:
 ```console
 kubectl create namespace kong 
 kubectl label namespace kong kuma.io/sidecar-injection=enabled
-
 oc adm policy add-scc-to-user kong-mesh-sidecar system:serviceaccount:kong:kong-kong
+```
 
+Grab the latest chart:
+
+```console
+helm repo add kong https://charts.konghq.com
+helm repo update
+```
+
+Then run the install:
+
+```console
 helm install kong kong/kong -n kong \
 --set ingressController.installCRDs=false \
 --set podAnnotations."kuma\.io/mesh"=default \
