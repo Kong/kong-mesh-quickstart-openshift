@@ -174,6 +174,12 @@ oc adm policy add-scc-to-user kong-mesh-sidecar system:serviceaccount:bookinfo:b
 Next, deploy bookinfo. This bookinfo app has been paired down to work with Kong Mesh in evaluation mode. We only have 5 sidecars we can deploy on evaluation mode is all.
 
 ```console
+kubectl create namespace bookinfo
+
+kubectl label namespace kong kuma.io/sidecar-injection=enabled
+```
+
+```console
 kubectl apply -f bookinfo/bookinfo.yaml -n bookinfo
 ```
 
