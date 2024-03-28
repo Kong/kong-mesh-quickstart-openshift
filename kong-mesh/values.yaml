@@ -3,12 +3,10 @@ kuma:
   global:
     image:
       # -- Default registry for all Kuma Images
-      registry: "registry.connect.redhat.com/kong"
+      registry: "docker.io/kong"
       # -- The default tag for all Kuma images, which itself defaults to .Chart.AppVersion
-      tag: 2.2.0
     # -- Add `imagePullSecrets` to all the service accounts used for Kuma components
-    imagePullSecrets: 
-    - rh-registry-secret
+
   # -- Whether to patch the target namespace with the system label
   patchSystemNamespace: true
   installCrdsOnUpgrade:
@@ -273,7 +271,6 @@ kuma:
       # -- CNI image repository
       repository: "ubi-kuma-cni"
       # -- CNI image tag - defaults to .Chart.AppVersion
-      tag: 2.2.0
       # -- CNI image pull policy
       imagePullPolicy: IfNotPresent
     # -- it's only useful in tests to trigger a possible race condition
@@ -304,14 +301,14 @@ kuma:
     #    # to support additional pod level securityContext parameters, please check:https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#podsecuritycontext-v1-core
 
     # -- Security context at the container level for cni
-    containerSecurityContext: {} # for overlapping securityContext between pod and container, the container's value take precedence
+    containerSecurityContext:  # for overlapping securityContext between pod and container, the container's value take precedence
+      privileged: true
   #    # The values below are examples. More values can be added as needed, since the field resolves as free form.
   #    allowPrivilegeEscalation: false
   #    capabilities:
   #      drop:
   #        - all
   #    readOnlyRootFilesystem: true
-  #    privileged: false
   #    runAsNonRoot: true
   #    runAsUser: 1000
   #    runAsGroup: 3000
@@ -324,7 +321,6 @@ kuma:
       # -- Kuma DP ImagePullPolicy
       pullPolicy: IfNotPresent
       # -- Kuma DP Image Tag. When not specified, the value is copied from global.tag
-      tag: 2.2.0
 
   ingress:
     # -- If true, it deploys Ingress for cross cluster communication
@@ -529,7 +525,6 @@ kuma:
       # -- The kumactl image repository
       repository: "ubi-kumactl"
       # -- The kumactl image tag. When not specified, the value is copied from global.tag
-      tag: 2.2.0
   kubectl:
     # kuma image that support v1.20.15 image */ } }
     # see: https://hub.docker.com/r/kumahq/kubectl */ } }
